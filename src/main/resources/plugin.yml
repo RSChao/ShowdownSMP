@@ -1,0 +1,26 @@
+name: ShowdownSMP
+main: com.rschao.smp.Plugin
+version: 2.0
+api-version: 1.21
+authors: [rschao]
+    
+  
+
+permissions:
+  smp.lives:
+    default: op
+  smp.items:
+    default: op
+  smp.admin:
+    default: op
+    children:
+      smp.items: true
+  
+  
+
+
+
+depend: 
+ - UltimateAdvancementAPI
+ - CommandAPI
+load: STARTUP
