@@ -66,6 +66,11 @@ public abstract class Enchant implements Listener {
         if (Objects.requireNonNull(item.getItemMeta()).getPersistentDataContainer().has(getKey())) {
             ItemMeta meta = item.getItemMeta();
             List<String> lore = new ArrayList<>();
+            for(String line : Objects.requireNonNull(meta.getLore())) {
+                if (!line.startsWith(getDisplayName())) {
+                    lore.add(line);
+                }
+            }
             meta.setLore(lore);
             meta.getPersistentDataContainer().remove(getKey());
             meta.setEnchantmentGlintOverride(false);

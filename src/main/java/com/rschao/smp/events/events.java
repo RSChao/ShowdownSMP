@@ -332,6 +332,7 @@ public class events implements Listener {
       Player vPlayer = ev.getEntity();
       Player p = ev.getEntity().getKiller();
       if(p == null) return;
+      if(Plugin.getPauseLives()) return;
       if (saveData.getLives(p) >= 10){
          vPlayer.getWorld().dropItemNaturally(vPlayer.getLocation(), Items.LifeUpGem);
          p.sendMessage(ChatColor.LIGHT_PURPLE + "A Feather of Reincarnation has been dropped!");

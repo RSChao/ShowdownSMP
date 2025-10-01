@@ -218,6 +218,7 @@ public class AnvilRecipe implements Listener {
     @EventHandler
     void onInventoryClick(InventoryClickEvent ev) {
         if (ev.getInventory() instanceof AnvilInventory anvilInventory) {
+
             if (ev.getSlotType() == InventoryType.SlotType.RESULT) {
                 ItemStack result = anvilInventory.getItem(2);
                 if (result != null && result.isSimilar(result)) {

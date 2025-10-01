@@ -29,7 +29,6 @@ import com.rschao.smp.advs.tree_1.Ssmp_end;
 import com.rschao.smp.commands.*;
 import com.rschao.smp.enchants.armor.FlameArmorEnchant;
 import com.rschao.smp.enchants.armor.RegenerationEnchant;
-import com.rschao.smp.enchants.bow.TeleportArrowEnchant;
 import com.rschao.smp.enchants.bow.UltraInfinityEnchant;
 import com.rschao.smp.enchants.definition.Enchant;
 import com.rschao.smp.enchants.elytra.CrowdControlEnchant;
@@ -80,7 +79,7 @@ public class Plugin extends JavaPlugin implements Listener {
    saveData lifeData;
    private final Logger LOGGER = Logger.getLogger("ShowdownSMP");
    private static boolean pauseLives = false;
-    static List<Enchant> enchants = new ArrayList<>(List.of(new TeleportArrowEnchant(), new UltraInfinityEnchant(), new LifeDrainEnchant(), new RegenerationEnchant(), new FlameArmorEnchant(), new AttractionEnchant()));
+    static List<Enchant> enchants = new ArrayList<>(List.of(new UltraInfinityEnchant(), new LifeDrainEnchant(), new RegenerationEnchant(), new FlameArmorEnchant(), new AttractionEnchant(), new CrowdControlEnchant()));
     static List<Enchant> allenchants = new ArrayList<>(enchants);
     @Override
     public void onLoad() {
@@ -91,7 +90,7 @@ public class Plugin extends JavaPlugin implements Listener {
     }
 
     public void onEnable() {
-      addEnchantsWithoutTable(new BanEnchant(), new ForceFieldEnchant(), new CrowdControlEnchant());
+      addEnchantsWithoutTable(new BanEnchant(), new ForceFieldEnchant());
       this.plugin = this;
       this.GemKey = new NamespacedKey(this.plugin, "HealthGem");
       this.speedKey = new NamespacedKey(this.plugin, "SpeedFragment");
@@ -111,15 +110,16 @@ public class Plugin extends JavaPlugin implements Listener {
       this.guiEvs = new invEvents();
       this.saveDefaultConfig();
       this.getServer().getPluginManager().registerEvents(this.evs, this);
-      this.getServer().getPluginManager().registerEvents(new AnvilRecipe(), this);
+        this.getServer().getPluginManager().registerEvents(new AnvilRecipe(), this);
+        this.getServer().getPluginManager().registerEvents(new villagerEvents(), this);
+        this.getServer().getPluginManager().registerEvents(new EnchantingTableEvent(), this);
       this.getServer().getPluginManager().registerEvents(guiEvs, this);
       this.getServer().getPluginManager().registerEvents(this, this);
       this.getServer().getPluginManager().registerEvents(new manageLife(), this);
-      for(Enchant enchant : getEnchants()){
-          this.getServer().getPluginManager().registerEvents(enchant, this);
-      }
+        for(Enchant enchant : getAllEnchants()){
+            this.getServer().getPluginManager().registerEvents(enchant, this);
+        }
       this.items.Init();
-        WorldEditItems.init();
       this.startCmds();
       this.initializeTabs();
       LOGGER.info("Backing up enderchests...");

@@ -19,9 +19,9 @@ public class saveData {
     static File dataFile;
     static FileConfiguration config;
     public saveData(Plugin pl){
-        plugin = Plugin.getPlugin(Plugin.class);
+        plugin = pl;
         dataFile = new File(plugin.getDataFolder(), "lives.yml");
-        config = new YamlConfiguration();
+        config = YamlConfiguration.loadConfiguration(dataFile);
         try{
             config.load(dataFile);
         } catch(IOException | InvalidConfigurationException e){
