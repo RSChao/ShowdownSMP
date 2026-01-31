@@ -4,8 +4,11 @@ import com.rschao.plugins.showdowncore.showdownCore.api.enchantment.CustomEnchan
 import com.rschao.plugins.showdowncore.showdownCore.api.enchantment.definition.EasyEnchant;
 import org.bukkit.ChatColor;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+
+import java.util.Objects;
 
 public class FlameArmorEnchant extends EasyEnchant {
     public FlameArmorEnchant() {
@@ -18,11 +21,14 @@ public class FlameArmorEnchant extends EasyEnchant {
     @Override @EventHandler
     public void onPlayerDamage(EntityDamageByEntityEvent ev) {
         // Check if the damaged entity is a player
-        if (!(ev.getEntity() instanceof org.bukkit.entity.Player player)) return;
+        if (!(ev.getEntity() instanceof LivingEntity le)) return;
         int i = 0;
         int level = 0;
         // Check if the player is wearing armor with this enchant
-        for (org.bukkit.inventory.ItemStack armor : player.getInventory().getArmorContents()) {
+        if(Objects.requireNonNull(le.getEquipment()).getArmorContents().length < 1) return;
+        for (org.bukkit.inventory.ItemStack armor : le.getEquipment().getArmorContents()) {
+            if(armor == null) continue;
+            if(!armor.hasItemMeta()) continue;
             if (hasEnchantment(armor)) {
                 // Apply fire damage to the attacker
                 if (ev.getDamager() instanceof org.bukkit.entity.LivingEntity) {

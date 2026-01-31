@@ -163,7 +163,6 @@ public class Plugin extends JavaPlugin implements Listener {
           revive.LoadCommand().register("showdownsmp");
       }
       showdown.LoadCommand().register("showdownsmp");
-      giveVillagerEgg.LoadCommand().register("showdownsmp");
       FuseItems.LoadCommand().register("showdownsmp");
       togglePauseLives.LoadCommand().register("showdownsmp");
       showdown.LoadCommand().register("showdownsmp");
