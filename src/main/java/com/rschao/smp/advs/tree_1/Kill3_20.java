@@ -42,9 +42,6 @@ public class Kill3_20 extends BaseAdvancement implements HiddenVisibility {
    public void giveReward(Player player) {
       ItemStack reward1 = new ItemStack(Material.BEDROCK, 5);
       player.getInventory().addItem(reward1);
-      ItemStack reward2 = Items.PureSF;
-      reward2.setAmount(4);
-      player.getInventory().addItem(reward2);
       Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "playsound ui.toast.challenge_complete master " + player.getName());
    }
 }
