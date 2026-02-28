@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
@@ -31,6 +32,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
@@ -357,6 +359,17 @@ public class events implements Listener {
          x = p.getInventory().getItemInMainHand().getAmount() - 1;
       }
       return x;
+   }
+
+   //This is to prevent droppers from shooting bundles, which would cause an item dupe
+   @EventHandler
+   void onDropperShoot(InventoryMoveItemEvent e) {
+        if(e.getSource().getType().equals(org.bukkit.event.inventory.InventoryType.DROPPER)){
+             if(e.getItem().getType().toString().contains("BUNDLE")){
+                e.setCancelled(true);
+                Plugin.getPlugin(Plugin.class).getLogger().log(Level.SEVERE, "A dropper tried to shoot a bundle, cancelling to prevent item dupe");
+             }
+        }
    }
 
    @EventHandler
