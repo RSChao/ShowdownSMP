@@ -314,24 +314,6 @@ public class events implements Listener {
       }
    }
 
-   @EventHandler
-   public void OnDeath(PlayerDeathEvent e) {
-      if (e.getEntity() instanceof Player && e.getEntity().isDead()) {
-         Player p = e.getEntity();
-         if(p == null) return;
-         if(e.getEntity().getKiller() == null);
-         ItemStack i = e.getEntity().getKiller().getInventory().getItemInMainHand();
-         if(i == null) return;
-         if (i.getItemMeta().getPersistentDataContainer().has(this.BSKey, PersistentDataType.BOOLEAN)) {
-            if (i.getItemMeta().getDisplayName().equalsIgnoreCase(ChatColor.RED + "Sword of Judgement")) {
-               server.dispatchCommand(console, "ban " + p.getName());
-            } else {
-               server.dispatchCommand(console, "essentials:tempban " + p.getName() + " " + i.getItemMeta().getDisplayName());
-            }
-         }
-         else return;
-      }
-   }
 
    @EventHandler
    public void onPlayerDeath(PlayerDeathEvent ev){
