@@ -13,6 +13,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 import com.rschao.smp.Plugin;
+import org.bukkit.profile.PlayerProfile;
 
 public class saveData {
     static Plugin plugin;
@@ -47,15 +48,43 @@ public class saveData {
         }
         reload();
     }
+    public static void SaveLives(PlayerProfile p, int l){
+        config.set("players." + p.getName(), l);
+        try{
+            config.save(dataFile);
+        } catch(IOException e){
+            e.printStackTrace();
+        }
+        reload();
+    }
+    public static void SaveLives(String p, int l){
+        config.set("players." + p, l);
+        try{
+            config.save(dataFile);
+        } catch(IOException e){
+            e.printStackTrace();
+        }
+        reload();
+    }
     public static int getLives(Player p){
         int l = config.getInt("players." + p.getName());
         return l;
-        
+
+    }
+    public static int getLives(String p){
+        int l = config.getInt("players." + p);
+        return l;
+
     }
     public static int getLives(OfflinePlayer p){
         int l = config.getInt("players." + p.getName());
         return l;
-        
+
+    }
+    public static int getLives(PlayerProfile p){
+        int l = config.getInt("players." + p.getName());
+        return l;
+
     }
     public static boolean CheckExisting(Player p){
         return config.contains("players."+p.getName(), true);

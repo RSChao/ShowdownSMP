@@ -37,7 +37,6 @@ import com.rschao.smp.enchants.definition.Enchant;
 import com.rschao.smp.enchants.elytra.CrowdControlEnchant;
 import com.rschao.smp.enchants.emblem.GodTouchEnchant;
 import com.rschao.smp.enchants.sword.AttractionEnchant;
-import com.rschao.smp.enchants.sword.BanEnchant;
 import com.rschao.smp.enchants.sword.LifeDrainEnchant;
 import com.rschao.smp.enchants.tools.SmelterEnchant;
 import com.rschao.smp.events.*;
@@ -118,9 +117,9 @@ public class Plugin extends JavaPlugin implements Listener {
 
     public void onEnable() {
       EnchantManager.addEnchantsWithoutTable();
-      ezenchants.addAll(List.of(new AttractionEnchant(), new LifeDrainEnchant(), new FlameArmorEnchant(), new UltraInfinityEnchant(), new BanEnchant(), new GodTouchEnchant(), new SmelterEnchant()));
+      ezenchants.addAll(List.of(new AttractionEnchant(), new LifeDrainEnchant(), new FlameArmorEnchant(), new UltraInfinityEnchant(), new GodTouchEnchant(), new SmelterEnchant()));
       this.guiEvs = new invEvents();
-        startEvents();
+      startEvents();
       this.items.Init();
       this.startCmds();
       this.initializeTabs();

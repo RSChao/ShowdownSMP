@@ -113,7 +113,7 @@ public class Items {
       this.BadOmen();
       this.createTestSword();
 
-       if(!plugin.getConfig().getBoolean("lives.enabled")) {
+       if(plugin.getConfig().getBoolean("lives.enabled")) {
            this.LifeUpGem();
            ReviveBeacon();
        }
@@ -565,16 +565,25 @@ public class Items {
       meta.addItemFlags(new ItemFlag[]{ItemFlag.HIDE_ENCHANTS});
       item.setItemMeta(meta);
       LifeUpGem = item;
-      NamespacedKey key = NamespacedKey.minecraft("thevickytoria");
+      NamespacedKey key = NamespacedKey.minecraft("thevickytoriados");
       Bukkit.getServer().removeRecipe(key); // Remove if exists
       ShapedRecipe sr = new ShapedRecipe(key, LifeUpGem);
       sr.shape(new String[]{"HDH", "DSD", "HDH"});
-      sr.setIngredient('H', new ExactChoice(smallhgem));
+      sr.setIngredient('H', Material.TOTEM_OF_UNDYING);
       sr.setIngredient('D', Material.DIAMOND);
       sr.setIngredient('S', Material.WITHER_SKELETON_SKULL);
       sr.setCategory(CraftingBookCategory.MISC);
       Bukkit.getServer().removeRecipe(key); // Remove if exists
       Bukkit.getServer().addRecipe(sr);
+      NamespacedKey key2 = NamespacedKey.minecraft("thevickytoria");
+      Bukkit.getServer().removeRecipe(key2); // Remove if exists
+      ShapedRecipe sr2 = new ShapedRecipe(key2, LifeUpGem);
+      sr2.shape(new String[]{"HDH", "DSD", "HDH"});
+      sr2.setIngredient('H', new ExactChoice(smallhgem));
+      sr2.setIngredient('D', Material.DIAMOND);
+      sr2.setIngredient('S', Material.WITHER_SKELETON_SKULL);
+      sr2.setCategory(CraftingBookCategory.MISC);
+      Bukkit.getServer().addRecipe(sr2);
    }
 
    void HeartExtractor(){

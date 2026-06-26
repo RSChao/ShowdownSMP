@@ -8,7 +8,7 @@ import com.rschao.smp.lives.saveData;
 import dev.jorel.commandapi.CommandAPICommand;
 import dev.jorel.commandapi.arguments.ArgumentSuggestions;
 import dev.jorel.commandapi.arguments.IntegerArgument;
-import dev.jorel.commandapi.arguments.PlayerProfileArgument;
+import dev.jorel.commandapi.arguments.StringArgument;
 import dev.jorel.commandapi.executors.CommandArguments;
 import net.md_5.bungee.api.ChatColor;
 
@@ -30,27 +30,26 @@ public class lifecheck {
     public static CommandAPICommand check(){
         String[] string = saveData.GetAllPlayers();
         CommandAPICommand check = new CommandAPICommand("check")
-            .withOptionalArguments(new PlayerProfileArgument("target").replaceSuggestions(ArgumentSuggestions.strings(string)))
+            .withOptionalArguments(new StringArgument("target").replaceSuggestions(ArgumentSuggestions.strings(info -> saveData.GetAllPlayers())))
             .executesPlayer((Player player, CommandArguments args) -> {
-                OfflinePlayer p = (OfflinePlayer) args.getOrDefault("target", player);
+                String p = (String) args.getOrDefault("target", player.getName());
                 int lives = saveData.getLives(p);
-                player.sendMessage(ChatColor.YELLOW + p.getName() + ChatColor.GREEN + " has " + ChatColor.YELLOW + String.valueOf(lives) + ChatColor.DARK_GREEN + " lives");
+                player.sendMessage(ChatColor.YELLOW + p + ChatColor.GREEN + " has " + ChatColor.YELLOW + String.valueOf(lives) + ChatColor.DARK_GREEN + " lives");
             });
         return check;
         
     }
     public static CommandAPICommand add(){
-        String[] string = saveData.GetAllPlayers();
         CommandAPICommand add = new CommandAPICommand("add")
             .withArguments(new IntegerArgument("amount"))
-            .withOptionalArguments(new PlayerProfileArgument("target").replaceSuggestions(ArgumentSuggestions.strings(string)))
+            .withOptionalArguments(new StringArgument("target").replaceSuggestions(ArgumentSuggestions.strings(info -> saveData.GetAllPlayers())))
             .executesPlayer((Player player, CommandArguments args) -> {
                 if(player.hasPermission("smp.lives")){
-                    OfflinePlayer p = (OfflinePlayer) args.getOrDefault("target", player);
+                    String p = (String) args.getOrDefault("target", player.getName());
                     int lives = saveData.getLives(p);
                     int amnt = (int) args.getOrDefault("amount", 0);
                     saveData.SaveLives(p, lives + amnt);
-                    player.sendMessage(ChatColor.YELLOW + p.getName() + ChatColor.GREEN + " has been granted " + ChatColor.YELLOW + String.valueOf(amnt) + ChatColor.DARK_GREEN + " lives");
+                    player.sendMessage(ChatColor.YELLOW + p+ ChatColor.GREEN + " has been granted " + ChatColor.YELLOW + String.valueOf(amnt) + ChatColor.DARK_GREEN + " lives");
                 }
                 else{
                     player.sendMessage("UnauthorizedUserException(at SSMP/lifesystem.java)");
@@ -62,13 +61,13 @@ public class lifecheck {
     public static CommandAPICommand set(){
         String[] string = saveData.GetAllPlayers();
         CommandAPICommand set = new CommandAPICommand("set")
-            .withArguments(new PlayerProfileArgument("target").replaceSuggestions(ArgumentSuggestions.strings(string)), new IntegerArgument("amount"))
+            .withArguments(new StringArgument("target").replaceSuggestions(ArgumentSuggestions.strings(info -> saveData.GetAllPlayers())), new IntegerArgument("amount"))
             .executesPlayer((Player player, CommandArguments args) -> {
                 if(player.hasPermission("smp.lives")){
-                    OfflinePlayer p = (OfflinePlayer) args.getOrDefault("target", player);
+                    String p = (String) args.getOrDefault("target", player.getName());
                     int amnt = (int) args.getOrDefault("amount", 0);
                     saveData.SaveLives(p, amnt);
-                    player.sendMessage(ChatColor.YELLOW + p.getName() + ChatColor.GREEN + "'s lives have been set to " + ChatColor.YELLOW + String.valueOf(amnt) + ChatColor.DARK_GREEN);
+                    player.sendMessage(ChatColor.YELLOW + p + ChatColor.GREEN + "'s lives have been set to " + ChatColor.YELLOW + String.valueOf(amnt) + ChatColor.DARK_GREEN);
                 }
                 else{
                     player.sendMessage("UnauthorizedUserException(at SSMP/lifesystem.java)");
@@ -81,14 +80,14 @@ public class lifecheck {
         String[] string = saveData.GetAllPlayers();
         CommandAPICommand remove = new CommandAPICommand("remove")
             .withArguments(new IntegerArgument("amount"))
-            .withOptionalArguments(new PlayerProfileArgument("target").replaceSuggestions(ArgumentSuggestions.strings(string)))
+            .withOptionalArguments(new StringArgument("target").replaceSuggestions(ArgumentSuggestions.strings(info -> saveData.GetAllPlayers())))
             .executesPlayer((Player player, CommandArguments args) -> {
                 if(player.hasPermission("smp.lives")){
-                    OfflinePlayer p = (OfflinePlayer) args.getOrDefault("target", player);
+                    String p = (String) args.getOrDefault("targets", player.getName());
                     int lives = saveData.getLives(p);
                     int amnt = (int) args.getOrDefault("amount", 0);
                     saveData.SaveLives(p, lives - amnt);
-                    player.sendMessage(ChatColor.YELLOW + p.getName() + ChatColor.GREEN + " has been revoked " + ChatColor.YELLOW + String.valueOf(amnt) + ChatColor.DARK_GREEN + " lives");
+                    player.sendMessage(ChatColor.YELLOW + p + ChatColor.GREEN + " has been revoked " + ChatColor.YELLOW + String.valueOf(amnt) + ChatColor.DARK_GREEN + " lives");
                 }                
                 else{
                     player.sendMessage("UnauthorizedUserException(at SSMP/lifesystem.java)");
@@ -100,13 +99,13 @@ public class lifecheck {
     public static CommandAPICommand reset(){
         String[] string = saveData.GetAllPlayers();
         CommandAPICommand reset = new CommandAPICommand("reset")
-            .withArguments(new PlayerProfileArgument("target").replaceSuggestions(ArgumentSuggestions.strings(string)))
+            .withArguments(new StringArgument("target").replaceSuggestions(ArgumentSuggestions.strings(string)))
             .executesPlayer((Player player, CommandArguments args) -> {
                 if(player.hasPermission("smp.lives")){
-                    OfflinePlayer p = (OfflinePlayer) args.getOrDefault("target", player);
+                    String p = (String) args.getOrDefault("targets", player.getName());
                     int amnt = 5;
                     saveData.SaveLives(p, amnt);
-                    player.sendMessage(ChatColor.YELLOW + p.getName() + ChatColor.GREEN + " has been reset");
+                    player.sendMessage(ChatColor.YELLOW + p + ChatColor.GREEN + " has been reset");
                 }
                 else{
                     player.sendMessage("UnauthorizedUserException(at SSMP/lifesystem.java)");
