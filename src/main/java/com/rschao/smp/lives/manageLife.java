@@ -13,7 +13,7 @@ public class manageLife implements Listener {
     void OnDeath(PlayerDeathEvent ev){
         if(Plugin.getPauseLives()) return;
         lifeAPI.SubtractLife(ev.getEntity());
-        if(!ev.getEntity().getKiller().equals(null)){
+        if(ev.getEntity().getKiller() != null){
             if(saveData.getLives(ev.getEntity().getKiller()) >= 10){
                 ev.getEntity().getKiller().sendMessage(ChatColor.RED + "You reached the maximun amount of lives!");
                 return;

@@ -81,11 +81,6 @@ public class saveData {
         return l;
 
     }
-    public static int getLives(PlayerProfile p){
-        int l = config.getInt("players." + p.getName());
-        return l;
-
-    }
     public static boolean CheckExisting(Player p){
         return config.contains("players."+p.getName(), true);
     }
