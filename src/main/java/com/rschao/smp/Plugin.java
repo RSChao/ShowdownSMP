@@ -166,6 +166,7 @@ public class Plugin extends JavaPlugin implements Listener {
       togglePauseLives.LoadCommand().register("showdownsmp");
       showdown.LoadCommand().register("showdownsmp");
       addEnchant.LoadCommand().register("showdownsmp");
+      TPCancelCommands.registerCommands();
    }
    public void initializeTabs() {
   api = UltimateAdvancementAPI.getInstance(this);

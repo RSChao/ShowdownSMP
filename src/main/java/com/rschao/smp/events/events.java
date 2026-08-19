@@ -14,6 +14,8 @@ import java.util.Random;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import com.rschao.smp.tpcancel.TPCancelHandler;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -35,6 +37,7 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
@@ -428,8 +431,6 @@ public class events implements Listener {
             }
             ItemStack item;
             switch(parts[1]){
-                default:
-                    return;
                 case "ssmp":
                     item = Items.ssmpBanner();
                     break;
@@ -439,11 +440,25 @@ public class events implements Listener {
                 case "crystal":
                     item = Items.CrystalBanner();
                     break;
+               default:
+                  p.sendMessage(ChatColor.RED + "Invalid banner type. Valid types are: ssmp, angel, crystal");
+                  return;
             }
             Bukkit.getScheduler().runTask(Plugin.getPlugin(Plugin.class), () ->{
                 Item i = ev.getPlayer().getLocation().getWorld().dropItemNaturally(ev.getPlayer().getLocation(), item);
                 i.setPickupDelay(0);
             });
         }
+    }
+
+    @EventHandler
+    void onTeleport(PlayerTeleportEvent ev){
+      if(ev.getCause().equals(PlayerTeleportEvent.TeleportCause.ENDER_PEARL)) return;
+      Player p = ev.getPlayer();
+      if(ev.getFrom().getWorld().equals(ev.getTo().getWorld())) return;
+      if(TPCancelHandler.isPlayerInList(p.getName())){
+         ev.setCancelled(true);
+         p.sendMessage("But nothing happened");
+      }
     }
 }
