@@ -1,7 +1,5 @@
 package com.rschao.smp.commands;
 
-import com.rschao.smp.Plugin;
-import com.rschao.smp.enchants.definition.Enchant;
 import dev.jorel.commandapi.CommandAPICommand;
 import dev.jorel.commandapi.arguments.*;
 import dev.jorel.commandapi.executors.CommandArguments;

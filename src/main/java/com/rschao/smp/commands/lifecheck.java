@@ -28,7 +28,6 @@ public class lifecheck {
     }
 
     public static CommandAPICommand check(){
-        String[] string = saveData.GetAllPlayers();
         CommandAPICommand check = new CommandAPICommand("check")
             .withOptionalArguments(new StringArgument("target").replaceSuggestions(ArgumentSuggestions.strings(info -> saveData.GetAllPlayers())))
             .executesPlayer((Player player, CommandArguments args) -> {

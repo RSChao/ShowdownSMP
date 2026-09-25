@@ -31,10 +31,7 @@ import com.rschao.smp.advs.tree_1.Shieldadv;
 import com.rschao.smp.advs.tree_1.Ssmp_end;
 import com.rschao.smp.commands.*;
 import com.rschao.smp.enchants.armor.FlameArmorEnchant;
-import com.rschao.smp.enchants.armor.RegenerationEnchant;
 import com.rschao.smp.enchants.bow.UltraInfinityEnchant;
-import com.rschao.smp.enchants.definition.Enchant;
-import com.rschao.smp.enchants.elytra.CrowdControlEnchant;
 import com.rschao.smp.enchants.emblem.GodTouchEnchant;
 import com.rschao.smp.enchants.sword.AttractionEnchant;
 import com.rschao.smp.enchants.sword.LifeDrainEnchant;
@@ -81,8 +78,6 @@ public class Plugin extends JavaPlugin implements Listener {
    saveData lifeData;
    private final Logger LOGGER = Logger.getLogger("ShowdownSMP");
    private static boolean pauseLives = false;
-    static List<Enchant> enchants = new ArrayList<>(List.of(new RegenerationEnchant(), new CrowdControlEnchant()));
-    static List<Enchant> allenchants = new ArrayList<>(enchants);
     static List<EasyEnchant> ezenchants = new ArrayList<>();
     static ShowdownScript<Void> pauseLivesScript = new ShowdownScript<Void>((args) -> {
         boolean newState = (boolean) args[0];
@@ -116,7 +111,6 @@ public class Plugin extends JavaPlugin implements Listener {
     }
 
     public void onEnable() {
-      EnchantManager.addEnchantsWithoutTable();
       ezenchants.addAll(List.of(new AttractionEnchant(), new LifeDrainEnchant(), new FlameArmorEnchant(), new UltraInfinityEnchant(), new GodTouchEnchant(), new SmelterEnchant()));
       this.guiEvs = new invEvents();
       startEvents();
@@ -141,9 +135,6 @@ public class Plugin extends JavaPlugin implements Listener {
        this.getServer().getPluginManager().registerEvents(this, this);
        if(getConfig().getBoolean("lives.enabled")){
            this.getServer().getPluginManager().registerEvents(new manageLife(), this);
-       }
-       for(Enchant enchant : getAllEnchants()){
-           this.getServer().getPluginManager().registerEvents(enchant, this);
        }
        for (EasyEnchant e : ezenchants){
            this.getServer().getPluginManager().registerEvents(e, this);
@@ -220,38 +211,6 @@ public class Plugin extends JavaPlugin implements Listener {
          p.kickPlayer(ChatColor.RED + "You have been " + ChatColor.DARK_RED + "Death Banned. " + ChatColor.RED + "Wait for a friend to use a revive beacon on you.");
       }
    }
-    public static List<Enchant> getEnchants(){
-        return List.copyOf(enchants);
-    }
-    public static List<Enchant> getAllEnchants(){
-        return List.copyOf(allenchants);
-    }
-    public static class EnchantManager{
-        public static void addEnchantWithTable(Enchant enchant, boolean register) {
-            enchants.add(enchant);
-            if (register) {
-                Plugin plugin = JavaPlugin.getPlugin(Plugin.class);
-                plugin.getServer().getPluginManager().registerEvents(enchant, plugin);
-            }
-        }
-        public static void addEnchantWithoutTable(Enchant enchant, boolean register) {
-            allenchants.add(enchant);
-            if (register) {
-                Plugin plugin = JavaPlugin.getPlugin(Plugin.class);
-                plugin.getServer().getPluginManager().registerEvents(enchant, plugin);
-            }
-        }
-        public static void addEnchantsWithTable(Enchant ... newEnchants) {
-            for(Enchant enchant : newEnchants) {
-                enchants.add(enchant);
-            }
-        }
-        public static void addEnchantsWithoutTable(Enchant ... newEnchants) {
-            for(Enchant enchant : newEnchants) {
-                allenchants.add(enchant);
-            }
-        }
-    }
     public static boolean getPauseLives(){
         return pauseLives;
     }
